@@ -118,7 +118,7 @@ public class PPT{
 		  
        }
 	ronda ++;
-	}while(ronda <3); //Este while hace que se repita lo anterior hasta las instrucciones. Todo esto por un total de 3 rondas, cada ronda suma 1 a la variable ronda
+	}while(ronda <3 || puntUsu <2 || puntComp <2); //Este while hace que se repita lo anterior hasta las instrucciones. Todo esto por un total de 3 rondas, cada ronda suma 1 a la variable ronda o cuando uno de los dos consiga los dos puntos para ganar
 	/*Este if y else if anuncian al ganador basado en los puntos obtenidos*/
 	if(puntUsu >= 2){
 	System.out.println("El ganador fue: el usuario ehhhhhhhhh");
