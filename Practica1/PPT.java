@@ -17,11 +17,13 @@ public class PPT{
 	int valorU=3;
 	int puntComp=0;
 	int puntUsu=0;
+	int ronda= 0;
 	boolean Validacion = true;
 	
 	
 	// Bienvenida al programa
 	System.out.println("Bienvenido a Piedra, Papel o Tijeras!!!");
+	System.out.println("Gana el mejor de 3 rondas");
 	do{
         //variabel entera para que la computadora elija un numero aleatorio (del 0 al 2)
 	int valorM = rand.nextInt(3);
@@ -115,14 +117,16 @@ public class PPT{
 		  }
 		  
        }
-	}while(puntUsu < 2 && puntComp < 2); //Este while hace que se repita lo anterior hasta las instrucciones, hasta que el usuario o la
+	ronda ++;
+	}while(ronda <3); //Este while hace que se repita lo anterior hasta las instrucciones, hasta que el usuario o la
 	//computadora consigan 2 puntos
 	/*Este if y else if anuncian al ganador basado en los puntos obtenidos*/
-	if(puntUsu==2){
-	    
+	if(puntUsu >= 2){
 	System.out.println("El ganador fue: el usuario ehhhhhhhhh");
-	}else if(puntComp ==2){
+	}else if(puntComp >= 2){
 	    System.out.println("El ganador fue: La computadora, como eres malo");
+	}else {
+	    System.out.println("Ninguno de los dos consiguio dos puntos");
 	}
 	
 
