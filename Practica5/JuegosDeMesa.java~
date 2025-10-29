@@ -1,0 +1,26 @@
+import java.util.Scanner;
+
+public class JuegosDeMesa{
+    public static void main(String[] args){
+	//Creacion de variables
+	String[] juegos = new String[100];
+	String nombre, gen;
+	String[] genero = new String[100];
+	int[] calificacion = new int[100];
+	int calif;
+	//Creacion de objetos
+	Scanner scan = new Scanner(System.in);
+	
+	//do{ //Mantener el flujo del programa, en caso de querer realizar diferentes acciones varias veces
+	    System.out.print("Escriba un juego de mesa: ");
+	    nombre = scan.nextLine();
+	    System.out.print("¿Qué calificacion tiene? ");
+	    calif = scan.nextInt();
+	    System.out.print("¿Qué género es? ");
+	    scan.nextLine(); //limpiar scan
+	    gen = scan.nextLine();
+
+
+	    //}while();
+    }//FIn del main
+}//FIn de la clase

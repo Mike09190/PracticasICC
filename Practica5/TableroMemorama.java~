@@ -1,0 +1,114 @@
+import java.util.Random;
+
+public class TableroMemorama{
+    private char[][] valoresMatriz = new char[4][4];
+    private char[][] tablero = new char[4][4];
+    private char[] simbolos = {'A','A','B','B','C','C','D','D','E','E', 'F','F', 'G','G','H','H'};
+    private int coordX;
+    private int coordY;
+    private Random rand = new Random();
+
+    //Metodo constructor
+    public TableroMemorama(int coordX, int coordY){
+	this.coordX = coordX;
+	this.coordY = coordY;
+    }
+    //Metodos asignadores
+    public void cambiaCoordenadaX(int coordX){
+	this.coordX = coordX;
+    }
+    public void cambiaCoordenadaY(int coordY){
+	this.coordY = coordY;
+    }
+    //Metodos observadores
+    public int obtenCoordenadaX(){
+	return this.coordX;
+    }
+    public int obtenCoordenadaY(){
+	return this.coordY;
+    }
+    public void tableroNuevo(){
+	System.out.print("   ");
+        for (int i = 0; i < tablero[0].length; i++) {
+            System.out.print((i + 1)+ "  ");
+        }
+	for(int i = 0; i<tablero.length;i++){
+	    System.out.print((i+1) + " ");
+	    for(int j = 0; j<tablero[0].length;j++){
+		tablero[i][j] = '*';
+		System.out.print(" " + tablero[i][j]+ " ");
+	    }
+	    System.out.println();
+	
+	}
+    }
+    public void tableroMemorama(){ //Crear el tablero del memorama con sus respectivos valores
+	System.out.print("   ");
+        for (int i = 0; i < tablero[0].length; i++) {
+            System.out.print((i + 1)+ "  ");
+        }
+        System.out.println();
+	for(int i = 0; i<tablero.length;i++){
+	    System.out.print((i+1) + " ");
+	    for(int j = 0; j<tablero[0].length;j++){
+		
+		System.out.print(" " + tablero[i][j]+ " ");
+	    }
+	    System.out.println();
+	}	
+    }//Fin del metodo
+    //Metodo obtener una matriz con los valores reales de sus coordenadas
+    public void tableroAleatorio(){
+	for (int i = 0; i < valoresMatriz.length; i++) {
+	    for (int j = 0; j < valoresMatriz[0].length; j++) {
+		valoresMatriz[i][j] = ' ';
+	    }
+	}
+	for(int i=0; i<simbolos.length; i++){
+	    int x, y;
+	    do{
+	    x = rand.nextInt(4);
+	    y = rand.nextInt(4);
+	    }while(valoresMatriz[x][y] != ' ');
+		    valoresMatriz[x][y] = simbolos[i];
+	}//FIn del for 
+    }//FIn del metodo
+    //Imprimir el resultado para ver que lo hice bien xdxd
+    public void tableroReal() {
+	System.out.print("   ");
+	for (int i = 0; i < tablero[0].length; i++) {
+	    System.out.print((i + 1) + "  "); // encabezado superior con números
+	}
+	System.out.println();
+	for (int i = 0; i < valoresMatriz.length; i++) {
+	    System.out.print((i + 1) + " "); // encabezado lateral
+        for (int j = 0; j < valoresMatriz[0].length; j++) {
+            System.out.print(" " + valoresMatriz[i][j] + " "); // mostrar el símbolo real
+        }
+        System.out.println();
+	}
+    }//FIn del metodo
+    public void destapar(int x, int y){
+	tablero[y][x] = valoresMatriz[y][x];
+    }
+    public boolean pareja(int x, int y){
+	return tablero[this.coordY][this.coordX] != tablero[y][x];
+    }
+    public void noSonPareja(int x, int y){
+	tablero[y][x] = '*';
+	tablero[this.coordY][this.coordX]= '*';
+    }
+    public boolean casillasFinales(){
+	for(int i=0; i<tablero.length; i++){
+	    for(int j=0; j<tablero[0].length-1; j++){
+		if(tablero[i][j] == '*'){
+		    return true;
+		}
+	    }//Fin del for anidado
+	}//Fin del for
+	return false;
+    }
+	
+}//FIn de la clase
+
+
