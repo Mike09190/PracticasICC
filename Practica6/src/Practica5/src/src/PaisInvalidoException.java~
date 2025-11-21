@@ -1,0 +1,6 @@
+public class PaisInvalidadoException extends Exception{
+    public PaisInvalidadoException(String mensaje){
+	super(mensaje);
+    }
+
+}//FIn de la excepcion
