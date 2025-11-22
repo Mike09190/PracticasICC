@@ -1,9 +1,0 @@
-public class Estratosfericos extends Vuelos{
-
-    public class(String nombre, String apellidoP, String apellidoM, Date vencimientoIdentificacion, String nacionalidad, int numIdentificacion){
-	super(nombre, apellidoP, apellidoM, vencimientoIdentificacion, nacionalidad, numIdentificacion);
-    }
-
-
-
-}//Fin de la subclase
