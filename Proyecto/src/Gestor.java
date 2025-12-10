@@ -51,7 +51,7 @@ public class Gestor implements Serializable{
 	}
     }
    
-    public void agregarCurso(Cursos curso){
+    public void agregarCurso(Cursos curso) {
 	cursosActivos.add(curso);
     }
     public void agregarProfesor(Profesores profesor){
@@ -61,6 +61,38 @@ public class Gestor implements Serializable{
 	alumnos.add(alumno);
     }
     /**
+       Regresar curso, este se encarga de la lista de objetos cursos regresas uno especifico basados en su id
+     */
+    public Cursos regresarCurso(String identificador) {
+	for (Cursos c : cursosActivos) { //Buscar si existe ese profesor o num de identificacion
+	    if (c.obtenIdentificador().equals(identificador)) {
+		return c;
+	    }
+	}
+	return null;
+    }
+    /*
+      Regresar profesores, de la lista de obj profesores regresar especifico mediante su id
+    */
+    public Profesores regresarProfesor(String identificador){
+	for(Profesores p : profesores){
+	    if(p.obtenIdentificador().equals(identificador)){
+		return p;
+	    }
+	}
+	return null;
+    }
+    //regresarAlumnos, metodo que obtiene de la lista de alumnos un alumno en especifico
+    public Alumnos regresarAlumnos(String identificador){
+	for(Alumnos a : alumnos){
+	    if(a.obtenIdentificador().equals(identificador)){
+		return a;
+	    }
+	}
+	return null;
+
+    }
+    /**
        @param eleminarProfesor, aqui se guarda el profesor asociado al identificador dado por el usuario
        Busca en un primer for si existe un profesor asosciado en caso de encontrarlo guardar en la var
        en la primera condicion en caso de no encontrar nada regresa una excepcion
@@ -68,14 +100,8 @@ public class Gestor implements Serializable{
        en caso contrario borra de la lista de profesores.
      */
     public void eliminarProfesor(String identificador) throws EliminarException{
-	Profesores eliminarProfesor = null;
+	Profesores eliminarProfesor = regresarProfesor(identificador);
 	
-	for (Profesores p : profesores) { //Buscar si existe ese profesor o num de identificacion
-	    if (p.obtenIdentificador().equals(identificador)) {
-		eliminarProfesor = p;
-		break;
-	    }
-	}
 	if(eliminarProfesor == null){
 	    throw new EliminarException("No se encontro ningun profesor con dicho ID");
 	}
@@ -90,6 +116,7 @@ public class Gestor implements Serializable{
 		throw new EliminarException("El profesor esta impartiendo un curso, no se puede eliminar");
 	    }
 	}//Fin del for
+	System.out.println("Se ha eliminado con exito");
 	profesores.remove(eliminarProfesor);
 	
     }//fin del metodo
@@ -102,14 +129,8 @@ public class Gestor implements Serializable{
 
      */
     public void eliminarAlumno(String identificador) throws EliminarException{
-	Alumnos eliminarAlumno = null;
+	Alumnos eliminarAlumno = regresarAlumnos(identificador);
 	
-	for (Alumnos a : alumnos) { //Buscar si existe ese profesor o num de identificacion
-	    if (a.obtenIdentificador().equals(identificador)) {
-		eliminarAlumno = a;
-		break;
-	    }
-	}
 	if(eliminarAlumno == null){
 	    throw new EliminarException("No se encontro ningun alumno con dicho ID");
 	}
@@ -123,7 +144,8 @@ public class Gestor implements Serializable{
 		throw new EliminarException("El alumno esta dado de alta en un curso, no se puede eliminar");
 	    }
 	}//Fin del for
-	    alumnos.remove(eliminarAlumno);
+	System.out.println("Se ha eliminado con exito");
+	alumnos.remove(eliminarAlumno);
     }//Fin del metodo
     public boolean encontrarCurso(String identificador){
 	for(Cursos c: cursosActivos){
@@ -135,21 +157,14 @@ public class Gestor implements Serializable{
     }
 
     public void eliminarCurso(String identificador) throws EliminarException{
-	Cursos eliminarCurso = null;
-	
-	for (Cursos c : cursosActivos) { //Buscar si existe ese profesor o num de identificacion
-	    if (c.obtenIdentificador().equals(identificador)) {
-		eliminarCurso = c;
-		break;
-	    }
-	}
+	Cursos eliminarCurso = regresarCurso(identificador);
 	if(eliminarCurso == null){
 	    throw new EliminarException("No se encontro ningun curso con dicho ID");
 	}
 	if(!eliminarCurso.obtenFin().before(new Date()) || eliminarCurso.obtenAlumnos().size() == 0){
 	    throw new EliminarException("No se puede eliminar el curso, porque tiene mas de un estudiante o aun no termina");
 	}
-
+	System.out.println("Se ha eliminado con exito");
 	cursosActivos.remove(eliminarCurso); 
     }
     public void verCursos(){
@@ -159,14 +174,8 @@ public class Gestor implements Serializable{
 	}
     }
     public void verAlumnos(String identificador) throws EliminarException{
-        Cursos cursoEncontrado = null;
+        Cursos cursoEncontrado = regresarCurso(identificador);
 	
-	for (Cursos c : cursosActivos) { //Buscar si existe ese profesor o num de identificacion
-	    if (c.obtenIdentificador().equals(identificador)) {
-		cursoEncontrado = c;
-		break;
-	    }
-	}
 	if(cursoEncontrado == null){
 	    throw new EliminarException("No se encontro ningun curso con dicho ID");
 	}

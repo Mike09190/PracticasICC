@@ -8,6 +8,7 @@ public class Main{
 	boolean continuar = false, continuar2 = false, continuar3 = false;
 	String nombre, categoria, nivel, plataforma, descripcion;
 	String titulo;
+	String idAlumno, idProfesor, idCurso;
 	int numEstudiantes;
 	int añoTitulo;
 	int edad;
@@ -16,105 +17,53 @@ public class Main{
 	//objetos
 	Scanner scan = new Scanner(System.in);
 	Date fecha = new Date();
+	Gestor gestor = new Gestor();
+	Cursos curso = new Cursos();
+	Profesores profe = new Profesores();
+	Alumnos alumno = new Alumnos();
 	System.out.println("Bienvenido a continuacion eliga una de las sig. opc");
 
 	do{
             System.out.println("1. Crear nuevo curso,alumno o profesor");
             System.out.println("2. Inscribir alumnos, asignar profesor o reasignar profesor");
-            System.out.println("3. Guardar Datos");
-            System.out.print("4. Salir ");
+            System.out.println("3. Editar o eliminar algun estudiante, profesor o curso");
+	    System.out.println("4. Guardar Datos");
+            System.out.println("5. Salir ");
 	    opc = scan.nextInt();
 	    scan.nextLine();
 	    switch(opc){
 	    case 1:
-		System.out.println("Que gusta crear: 1-Curso, 2-Alumno, 3-Profesor");
+		System.out.println("Que gusta crear: 1-Curso, 2-Profesor, 3-Alumno");
 		opc = scan.nextInt();
+		scan.nextLine();
 		switch(opc){
 		case 1:
+		    boolean crearCurso = false;
 		    do{
 			try{
-			    System.out.println("Escriba el nombre: ");
-			    nombre = scan.nextLine();
-			    System.out.println("Escriba la categoria: (Computaci ́on, Matematicas, Fısica, Quımica, Biologıa, Economıa, Deporte, Literatura, Filosofıa, Historia, Otro)");
-			    categoria = scan.nextLine();
-			    System.out.println("Escriba el nivel: ");
-			    nivel = scan.nextLine();
-			    System.out.println("Horario de 7am a 21pm: ");
-			    int horas = scan.nextInt();
-			    horas = scan.nextInt();
-			    
-			    System.out.println("Plataforma: ");
-			    plataforma = scan.nextLine();
-			    System.out.println("num de estudiantes: ");
-			    numEstudiantes = scan.nextInt();
-			    scan.nextLine();
-			    System.out.println("Descripcion: ");
-			    descripcion = scan.nextLine();
-			    //Fechas
-			    System.out.println("Ingrese el año de inscripcion: YYYY");
-			    int año = scan.nextInt();
-			    scan.nextLine();//Limpiar scan
-			    System.out.println("Ingrese el mes de inscripcion: MM");
-			    int mes = scan.nextInt();
-			    scan.nextLine();//Limpiar scan
-			    System.out.println("Ingrese el dia de inscripcion: DD");
-			    int dia = scan.nextInt();
-			    scan.nextLine(); //Limpiar scan
-			    Date inscripcion = new Date(año - 1900, mes - 1, dia);
-			    //Inicio
-			    System.out.println("Ingrese el año de inicio: YYYY");
-			    año = scan.nextInt();
-			    scan.nextLine();//Limpiar 
-			    System.out.println("Ingrese el mes de inicio: MM");
-			    mes = scan.nextInt();
-			    scan.nextLine();//Limpiar scan
-			    System.out.println("Ingrese el dia de inicio: DD");
-			    dia = scan.nextInt();
-			    scan.nextLine(); //Limpiar scan
-			    Date inicio = new Date(año - 1900, mes - 1, dia);
-			    //fin
-			    System.out.println("Ingrese el año de fin: YYYY");
-			    año = scan.nextInt();
-			    scan.nextLine();//Limpiar 
-			    System.out.println("Ingrese el mes de fin: MM");
-			    mes = scan.nextInt();
-			    scan.nextLine();//Limpiar scan
-			    System.out.println("Ingrese el dia de fin: DD");
-			    dia = scan.nextInt();
-			    scan.nextLine(); //Limpiar scan
-			    Date fin = new Date(año - 1900, mes - 1, dia);
-			    Cursos curso = new Cursos( nombre,  categoria,  nivel, horas, plataforma,numEstudiantes, descripcion, inscripcion, inicio, fin);
-			    continuar = true;
+			    curso.edicionCuros();
+			    gestor.agregarCurso(curso);
+			    crearCurso = true;
 			}catch(NombreInvalidoException e){
 			    System.out.println(e);
-			}catch(CategoriaException o){
-			    System.out.println(o);
+			}catch(CategoriaException e){
+			    System.out.println(e);
 			}catch(NivelException e){
 			    System.out.println(e);
-			}catch(HoraException o){
-			    System.out.println(o);
+			}catch(HoraException e){
+			    System.out.println(e);
 			}catch(PlataformaException e){
 			    System.out.println(e);
-			}catch(Exception e){
-			    System.out.println("hubo un error inesperado");
 			}
-		    }while(!continuar);
+		    }while(!crearCurso);
+		    break;
 		case 2:
 		    System.out.println("Registrar Profesor");
 		    do{
 			try{
-			    System.out.println("Escriba el nombre: ");
-			    nombre = scan.nextLine();
-			    System.out.println("Nivel: (Preparatoria, Licenciatura, Posgrado)");
-			    nivel = scan.nextLine();
-			    System.out.println("Categoria: ");
-			    categoria = scan.nextLine();
-			    System.out.println("Titulo: ");
-			    titulo = scan.nextLine();
-			    System.out.println("Año: ");
-			    añoTitulo = scan.nextInt();
-			    scan.nextLine();
-			    Profesores profe = new Profesores(nombre, nivel, categoria, titulo, añoTitulo);
+			    profe.editarProfesor();
+			    gestor.agregarProfesor(profe);
+			    continuar = true;
 			}catch(NombreInvalidoException e){
 			    System.out.println(e);
 			}catch(CategoriaException o){
@@ -129,21 +78,15 @@ public class Main{
 			    System.out.println("Hubo un dato mal puesto no esperado");
 			}
 		    }while(!continuar2);
-		case 3:
+		case 3:// Alumnos
 		    do{
 			try{
-			    System.out.println("Nombre: ");
-			    nombre = scan.nextLine();
-			    System.out.println("Edad: ");
-			    edad = scan.nextInt();
-			    System.out.println("Escuela de procedencia: ");
-			    escuela = scan.nextLine();
-			    Alumnos alumno = new Alumnos(nombre, edad, escuela);
+			    alumno.editarAlumno();
+			    gestor.agregarAlumnos(alumno);
+			    continuar3 = true;
 			}catch(NombreInvalidoException e){
 			    System.out.println(e);
 			}catch(EdadException e){
-			    System.out.println(e);
-			}catch(EscuelaException e){
 			    System.out.println(e);
 			}
 		    }while(!continuar3);
@@ -153,13 +96,238 @@ public class Main{
 		}
 		break;
 	    case 2:
-		System.out.println("Que gusta inscribir: 1-Alumnos, 2-Profesor, 3-Reasignar un profesor");
-		
+		System.out.println("Que gusta inscribir: 1-Alumnos, 2-Profesor, 3-Reasignar un profesor, 4.Desinscribir a un alumno");
+		opc = scan.nextInt();
+		switch(opc){
+		case 1: //Inscribir alumno
+		    boolean inscripcion = false;
+		    do{
+			try{
+			    System.out.println("Ingrese el id del estudiante: ");
+			    idAlumno = scan.nextLine();
+			    Alumnos alumnoInscrito = gestor.regresarAlumnos(idAlumno);
+			    System.out.println("Ingrese el id del curso");
+			    idCurso = scan.nextLine();
+			    Cursos cursoEncontrado = gestor.regresarCurso(idCurso);
+			    if(cursoEncontrado == null){
+				throw new InscripcionInvalidaException("El curso no ha sido encontrado");
+			    }
+			    cursoEncontrado.inscribirAlumno(alumnoInscrito);
+			    inscripcion = true;
+			}catch(InscripcionInvalidaException e){
+			    System.out.println(e);
+			}
+		    }while(!inscripcion);
+		    break;
+		case 2: //Asignar profesor
+		    boolean inscripcion2 = false;
+		    do{
+			try{
+			    System.out.println("Ingrese el id del profesor: ");
+			    idProfesor = scan.nextLine();
+			    Profesores profesorAsignado = gestor.regresarProfesor(idProfesor);
+			    System.out.println("Ingrese el id del curso");
+			    idCurso = scan.nextLine();
+			    Cursos cursoEncontrado = gestor.regresarCurso(idCurso);
+			    if(cursoEncontrado == null){
+				throw new AsignacionException("El curso no ha sido encontrado");
+			    }
+			    cursoEncontrado.asignarProfesor(profesorAsignado);
+			    inscripcion2 = true;
+			}catch(AsignacionException e){
+			    System.out.println(e);
+			}
+		    }while(!inscripcion2);
+		    break;
+
+		case 3:
+		    boolean reasignacion = false;
+		    do{
+			try{
+			    System.out.println("Ingrese el id del profesor: ");
+			    idProfesor = scan.nextLine();
+			    Profesores profesorAsignado = gestor.regresarProfesor(idProfesor);
+			    System.out.println("Ingrese el id del curso");
+			    idCurso = scan.nextLine();
+			    Cursos cursoEncontrado = gestor.regresarCurso(idCurso);
+			    if(cursoEncontrado == null){
+				throw new ReasignacionException("El curso no ha sido encontrado");
+			    }
+			    cursoEncontrado.reasignarProfesor(profesorAsignado);
+			    reasignacion = true;
+			}catch(ReasignacionException e){
+			    System.out.println(e);
+			}
+		    }while(!reasignacion);
+		    break;
+		case 4: //Quitar a un alumno
+		    boolean quitar = false;
+		    do{
+			try{
+			    System.out.println("Ingrese el id del estudiante: ");
+			    idAlumno = scan.nextLine();
+			    Alumnos alumnoInscrito = gestor.regresarAlumnos(idAlumno);
+			    System.out.println("Ingrese el id del curso");
+			    idCurso = scan.nextLine();
+			    Cursos cursoEncontrado = gestor.regresarCurso(idCurso);
+			    if(cursoEncontrado == null){
+				throw new EliminarException("El curso no ha sido encontrado");
+			    }
+			    cursoEncontrado.quitarAlumno(alumnoInscrito);
+			    quitar = true;
+			}catch(EliminarException e){
+			    System.out.println(e);
+			}
+		    }while(!quitar);
+		    break;
+		}//Fin del sub-switch
 		break;
 	    case 3:
-		System.out.println("Bienvenido al sistema para guardar o cargar datos, que gusta realizar. 1-Guardar, 2-Cargar");
+		System.out.println("Que gusta hacer, editar o eliminar algun dato: 1-Editar, 2-Eliminar");
+		int opcion = scan.nextInt();
+		scan.nextLine();
+		if(opcion == 1){
+		    System.out.println("A quien gusta editar: 1-Alumno, 2-Profesor, 3-Curso");
+		    int editar = scan.nextInt();
+		    scan.nextLine();
+		    switch(editar){
+		    case 1:
+			boolean edit = false;
+			do{
+			    try{
+				System.out.println("Ingrese el id del alumno");
+				idAlumno = scan.nextLine();
+				Alumnos alumnoEditar = gestor.regresarAlumnos(idAlumno); //alumno encontrado
+				alumnoEditar.editarAlumno();
+				if(alumnoEditar  == null){
+				    throw new NombreInvalidoException("No se encontro al alumno por su id");
+				}
+				edit = true;
+			    }catch(NombreInvalidoException e){
+				System.out.println(e);
+			    }catch(EdadException e){
+				System.out.println(e);
+			    }
+			}while(!edit);
+			break;
+		    case 2: //Profesor
+			boolean profesor = false;
+			do{
+			    try{
+				System.out.println("Ingrese el id del profesor");
+				idProfesor = scan.nextLine();
+				Profesores profesorEditar = gestor.regresarProfesor(idProfesor); //alumno encontrado
+				profesorEditar.editarProfesor();
+				if(profesorEditar  == null){
+				    throw new NombreInvalidoException("No se encontro al profesor por su id");
+				}
+				
+				profesor = true;
+			    }catch(NombreInvalidoException e){
+				System.out.println(e);
+			    }catch(CategoriaException e){
+				System.out.println(e);
+			    }catch(NivelException e){
+				System.out.println(e);
+			    }catch(TituloException o ){
+				System.out.println(o);
+			    }catch(HoraException o){
+				System.out.println(o);
+			    }
+			    
+			}while(!profesor);
+			break;
+		    case 3: //Editar curso
+			boolean editCurso = false;
+			    do{
+				try{
+				    System.out.println("Ingrese el id del curso");
+				    idCurso = scan.nextLine();
+				    Cursos cursoEditar = gestor.regresarCurso(idCurso); //Curso Encontrado
+				    if(cursoEditar.editarCurso()){
+					cursoEditar.edicionCuros();
+				    }else{
+					break;
+				    }
+				    if(cursoEditar  == null){
+					throw new NombreInvalidoException("No se encontro al profesor por su id");
+				    }
+				    editCurso = true;
+				}catch(NombreInvalidoException e){
+				    System.out.println(e);
+				}catch(CategoriaException e){
+				    System.out.println(e);
+				}catch(NivelException e){
+				    System.out.println(e);
+				}catch(PlataformaException o ){
+				    System.out.println(o);
+				}catch(HoraException o){
+				    System.out.println(o);
+				}
+			    }while(!editCurso);
+				    
+			
+			break;
+		    }//Fin del switch
+
+		}//Fin del if
+		else if(opcion == 2){
+		    //ELiminar
+		    System.out.println("Que gusta eliminar. 1-Alumno, 2-Profesor, 3-Curso");
+		    int eliminar = scan.nextInt();
+		    scan.nextLine();
+		    if(eliminar  == 1){
+			try{
+			    System.out.println("Ingrese el id del alumno para eliminar: ");
+			    idAlumno = scan.nextLine();
+			    gestor.eliminarAlumno(idAlumno);
+			}catch(EliminarException e){
+			    System.out.println(e);
+			}finally{
+			    break;
+			}
+			    
+		    }
+		    else if(eliminar  == 2){
+			try{
+			    System.out.println("Ingrese el id del profesor para eliminar: ");
+			    idProfesor = scan.nextLine();
+			    gestor.eliminarProfesor(idProfesor);
+			}catch(EliminarException e){
+			    System.out.println(e);
+			}finally{
+			    break;
+			}
+		    }//FIn del segundo if
+		    else if(eliminar == 3){
+			try{
+			    System.out.println("Ingrese el id del curso para eliminar: ");
+			    idCurso = scan.nextLine();
+			    gestor.eliminarCurso(idCurso);
+			}catch(EliminarException e){
+			    System.out.println(e);
+			}finally{
+			    break;
+			}
+		    }
+
+		}
+	       
 		break;
 	    case 4:
+		System.out.println("Bienvenido al sistema para guardar o cargar datos, que gusta realizar. 1-Guardar, 2-Cargar");
+		opc = scan.nextInt();
+		scan.nextLine();
+		if(opc == 1){
+		    System.out.println("Informacion guardada");
+		    gestor.guardarDatos();
+		}
+		else if(opc == 2){
+		    System.out.println("Informacion cargada");
+		    gestor.cargarDatos();
+		}
+		break;
+	    case 5:
 		salir = true;
 		break;
 	    default:

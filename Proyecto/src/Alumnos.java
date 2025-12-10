@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class Alumnos{
     //Atributos
@@ -7,19 +8,12 @@ public class Alumnos{
     private String escuela;
     private String identificador;
     private int numCursos;
+    private Scanner scan = new Scanner(System.in);
 
-    public Alumnos(String nombre, int edad, String escuela) throws NombreInvalidoException, EdadException, EscuelaException{
-	if (!nombre.matches("[A-Za-z]+")) {
-	    throw new NombreInvalidoException("El nombre no puede tener números.");
-	}
-	if(edad < 0){
-	    throw new EdadException("Como vas a tener menos que 0 años y quieres ingresar a un curso?");
-	}else if(edad >100){
-	    throw new EdadException("Ya estas en otros años para eso de tomar clases");
-	}
-	this.nombre = nombre;
-	this.edad = edad;
-	this.escuela = escuela;
+    public Alumnos(){
+	this.nombre = "";
+	this.edad = 0;
+	this.escuela = "";
 	Random random = new Random();
 	int idNumerico = random.nextInt(99999 - 10000 + 1) + 10000;
         
@@ -32,7 +26,10 @@ public class Alumnos{
 	return nombre;
     }
 
-    public void cambiaNombre(String nombre) {
+    public void cambiaNombre(String nombre) throws NombreInvalidoException{
+	if (!nombre.matches("[A-Za-z]+")) {
+	    throw new NombreInvalidoException("El nombre no puede tener números.");
+	}
 	this.nombre = nombre;
     }
 
@@ -40,7 +37,12 @@ public class Alumnos{
 	return edad;
     }
 
-    public void cambiaEdad(int edad) {
+    public void cambiaEdad(int edad) throws EdadException{
+	if(edad < 0){
+	    throw new EdadException("Como vas a tener menos que 0 años y quieres ingresar a un curso?");
+	}else if(edad >100){
+	    throw new EdadException("Ya estas en otros años para eso de tomar clases");
+	}
 	this.edad = edad;
     }
     
@@ -64,6 +66,26 @@ public class Alumnos{
     }
     public int numCursosActivos(){
 	return this.numCursos; 
+    }
+    public void editarAlumno() throws NombreInvalidoException, EdadException{
+	boolean continuar = false;
+	do{
+	    System.out.println("Nuevo nombre: ");
+	    String nombre = scan.nextLine();
+	    cambiaNombre(nombre);
+	    
+	    System.out.println("Nueva edad: ");
+	    int edad = scan.nextInt();
+	    scan.nextLine();
+	    cambiaEdad(edad);
+	    
+	    System.out.println("Escuela de procedencia: ");
+	    String escuela = scan.nextLine();
+	    cambiaEscuela(escuela);
+	    continuar = true;
+	}while(!continuar);
+	    System.out.println("Datos actualizados con exito");
+	    System.out.println("Su identificador es: "+obtenIdentificador());
     }
 
     @Override
